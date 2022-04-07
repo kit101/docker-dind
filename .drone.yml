@@ -1,0 +1,22 @@
+---
+name: default
+kind: pipeline
+type: docker
+
+steps:
+- name: publish
+  image: plugins/docker
+  pull: if-not-exists
+  settings:
+    context: docker
+    dockerfile: Dockerfile
+    repo: kit101z/docker-dind
+    auto_tag: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    ref:
+    - refs/heads/master
+    - refs/tag/**
